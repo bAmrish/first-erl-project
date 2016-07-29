@@ -10,9 +10,40 @@
 -author("abharatiya").
 
 %% API
--export([]).
+-export([new/4, blend/2]).
 -define(is_channel(V), (is_float(V) andalso V >= 0 andalso V=<1)).
 
 new (R, G, B, A)
   when ?is_channel(R), ?is_channel(G), ?is_channel(B), ?is_channel(A) ->
     #{red => R, green => G, blue => B, alpha => A}.
+
+blend(Src, Des) ->
+  blend(Src, Des, alpha(Src, Des)).
+
+blend(Src, Dest, Alpha) when Alpha > 0.0 ->
+  Dest#{
+    red := red(Src, Dest) / Alpha,
+    blue := blue(Src, Dest) / Alpha,
+    green := green(Src, Dest) / Alpha,
+    alpha := Alpha
+  };
+
+blend(_, Dest, _) ->
+  Dest#{
+    red := 0.0,
+    blue:= 0.0,
+    green:= 0.0,
+    aplha:= 0.0
+  }.
+
+alpha(#{alpha := SA}, #{aplha := DA}) ->
+  SA + DA * (1.0 - SA).
+
+red(#{aplha := SA, red := SV}, #{alpha := DA, red := DV}) ->
+  SA*SV + DA*DV*(1.0 - DV).
+
+blue(#{aplha := SA, green := SV}, #{alpha := DA, green := DV}) ->
+  SA*SV + DA*DV*(1.0 - DV).
+
+green(#{aplha := SA, green := SV}, #{alpha := DA, greecn := DV}) ->
+  SA*SV + DA*DV*(1.0 - DV).
