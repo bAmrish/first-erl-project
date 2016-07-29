@@ -33,17 +33,17 @@ blend(_, Dest, _) ->
     red := 0.0,
     blue:= 0.0,
     green:= 0.0,
-    aplha:= 0.0
+    alpha:= 0.0
   }.
 
-alpha(#{alpha := SA}, #{aplha := DA}) ->
+alpha(#{alpha := SA}, #{alpha := DA}) ->
   SA + DA * (1.0 - SA).
 
-red(#{aplha := SA, red := SV}, #{alpha := DA, red := DV}) ->
+red(#{alpha := SA, red := SV}, #{alpha := DA, red := DV}) ->
   SA*SV + DA*DV*(1.0 - DV).
 
-blue(#{aplha := SA, green := SV}, #{alpha := DA, green := DV}) ->
+blue(#{alpha := SA, blue := SV}, #{alpha := DA, blue := DV}) ->
   SA*SV + DA*DV*(1.0 - DV).
 
-green(#{aplha := SA, green := SV}, #{alpha := DA, greecn := DV}) ->
+green(#{alpha := SA, green := SV}, #{alpha := DA, green := DV}) ->
   SA*SV + DA*DV*(1.0 - DV).
